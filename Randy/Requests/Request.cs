@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using Randy.Requests.Abstractions;
 
@@ -7,6 +8,8 @@ namespace Randy.Requests
 {
     public class Request : IRequest
     {
+        
+        // TODO: remove api key
         public string Jsonrpc { get; set; }
         
         public string Method { get; set; }
@@ -15,12 +18,12 @@ namespace Randy.Requests
         
         public int Id { get; set; }
         
-        public Dictionary<string, object> Params { get; set; }
+        public Dictionary<string, object> Params { get; set; } = new Dictionary<string, object>();
         
         public HttpContent ToHttpContent(JsonSerializerOptions options)
         {
             string json = JsonSerializer.Serialize(this, options);
-            return new StringContent(json);
+            return new StringContent(json, Encoding.UTF8, "application/json");
         }
         
     }

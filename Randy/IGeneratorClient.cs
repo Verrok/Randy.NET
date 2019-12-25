@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Randy.Requests.Abstractions;
 using Randy.Requests.Responses;
 
@@ -7,9 +8,9 @@ namespace Randy
 {
     public interface IGeneratorClient
     {
-        void MakegRpcRequestAsync(IRequest request, CancellationToken cancellationToken = default);
+        Task<T> MakegRpcRequestAsync<T>(IRequest request, CancellationToken cancellationToken = default);
 
-        void MakegRpcRequest(IRequest request);
+        T MakegRpcRequest<T>(IRequest request);
 
         /// <summary>
         /// Generates array of random integers asynchronously

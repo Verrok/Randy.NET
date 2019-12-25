@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
+using System.Threading.Tasks;
 using Randy.Enums;
 using Randy.Requests.Abstractions;
 using Randy.Requests.Responses;
@@ -34,12 +35,32 @@ namespace Randy
         }
 
 
-        public void MakegRpcRequestAsync(IRequest request, CancellationToken cancellationToken = default)
+        public async Task<T> MakegRpcRequestAsync<T>(IRequest request, CancellationToken cancellationToken = default)
         {
+
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, _requestUrl)
+            {
+                Content = request.ToHttpContent(_options),
+            };
+
+            HttpResponseMessage response = null;
+            
+            try
+            {
+                response = await _client.SendAsync(httpRequest, cancellationToken);
+            }
+            catch (TaskCanceledException e)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                    throw;
+            }
+
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+            
             throw new NotImplementedException();
         }
 
-        public void MakegRpcRequest(IRequest request)
+        public T MakegRpcRequest<T>(IRequest request)
         {
             throw new NotImplementedException();
         }
