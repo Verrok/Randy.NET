@@ -1,9 +1,35 @@
-﻿using Randy.Requests.Responses;
+﻿using System;
+using System.Net.Http;
+using Randy.Enums;
+using Randy.Requests.Responses;
 
 namespace Randy
 {
     public class GeneratorClient : IGeneratorClient
     {
+        private readonly HttpClient _client;
+        private readonly string _apiKey;
+        private readonly string _requestUrl;
+        private readonly string _apiVersion;
+        public GeneratorClient(string apiKey, ApiVersion ver = ApiVersion.V2, HttpClient client = null)
+        {
+            _apiKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
+            _client = client ?? new HttpClient();
+
+            switch (ver)
+            {
+                case ApiVersion.V1:
+                    _apiVersion = "1.0";
+                    break;
+                case ApiVersion.V2:
+                    _apiVersion = "2.0";
+                    break;
+            }
+            
+
+        }
+    
+    
         public void MakegRpcRequestAsync()
         {
             throw new System.NotImplementedException();
