@@ -9,13 +9,10 @@ namespace Randy.Requests
     public class Request : IRequest
     {
         
-        // TODO: remove api key
         public string Jsonrpc { get; set; }
         
         public string Method { get; set; }
-        
-        public string ApiKey { get; set; }
-        
+
         public int Id { get; set; }
         
         public Dictionary<string, object> Params { get; set; } = new Dictionary<string, object>();

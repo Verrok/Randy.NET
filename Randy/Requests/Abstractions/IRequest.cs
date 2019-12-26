@@ -22,12 +22,7 @@ namespace Randy.Requests.Abstractions
         /// Method name that you want to invoke, e.g. "generateIntegers"
         /// </summary>
         string Method { get; set; }
-        
-        /// <summary>
-        /// Your API key, which is used to track the true random bit usage for your client.
-        /// </summary>
-        string ApiKey { get; set; }
-        
+
         /// <summary>
         /// Request parameters 
         /// </summary>
