@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+
+using System;
 using Randy.Requests.Abstractions;
 
 namespace Randy.Requests.Responses
 {
-    public class GetDecimalFractionsResponse : IResponse
+    public class ResponseBase : IResponse
     {
-        public IEnumerable<decimal> Data { get; set; }
         public DateTime CompletionTime { get; set; }
         public int BitsUsed { get; set; }
         public int BitsLeft { get; set; }

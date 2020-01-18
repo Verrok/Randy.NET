@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Randy.Requests.Abstractions;
@@ -16,7 +17,7 @@ namespace Randy
         /// <param name="cancellationToken">CancellationToken</param>
         /// <typeparam name="T">One of the responses</typeparam>
         /// <returns>Task with certain response</returns>
-        Task<T> MakegRpcRequestAsync<T>(IRequest request, CancellationToken cancellationToken = default);
+        Task<ResponseBase> MakegRpcRequestAsync(IRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Makes gRPC request to Random.org server
@@ -24,8 +25,19 @@ namespace Randy
         /// <param name="request">Request class</param>
         /// <typeparam name="T">One of the responses</typeparam>
         /// <returns>Certain response</returns>
-        T MakegRpcRequest<T>(IRequest request);
+        ResponseBase MakegRpcRequest(IRequest request);
 
+        
+        
+        /// <summary>
+        /// Gets data of certain type from json result
+        /// </summary>
+        /// <param name="jsonResult">json string from response</param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>data</returns>
+        T GetRandomData<T>(string jsonResult);
+        
+        
         /// <summary>
         /// Generates array of random integers asynchronously
         /// </summary>

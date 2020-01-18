@@ -3,13 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace Randy.Requests.Abstractions
 {
-    public interface IResponse<TResponse>
+    public interface IResponse
     {
-        /// <summary>
-        /// An array containing the strings requested.
-        /// </summary>
-        TResponse Data { get; set; }
-        
+
         /// <summary>
         /// A string containing the timestamp in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format at which the request was completed.
         /// </summary>
@@ -39,5 +35,11 @@ namespace Randy.Requests.Abstractions
         /// An integer containing ID of request
         /// </summary>
         int Id { get; set; }
+
+        
+        /// <summary>
+        /// JSON string of response
+        /// </summary>
+        public string JsonResponse { get; set; }
     }
 }

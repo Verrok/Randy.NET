@@ -4,7 +4,7 @@ using Randy.Requests.Abstractions;
 
 namespace Randy.Requests.Responses
 {
-    public class GetIntegerResponse : IResponse<IEnumerable<int>>
+    public class GetIntegerResponse : IResponse
     {
         public IEnumerable<int> Data { get; set; }
         public DateTime CompletionTime { get; set; }
@@ -13,5 +13,6 @@ namespace Randy.Requests.Responses
         public int RequestsLeft { get; set; }
         public int AdvisoryDelay { get; set; }
         public int Id { get; set; }
+        public string JsonResponse { get; set; }
     }
 }
