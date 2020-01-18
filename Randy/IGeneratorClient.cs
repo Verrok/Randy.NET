@@ -26,17 +26,6 @@ namespace Randy
         /// <typeparam name="T">One of the responses</typeparam>
         /// <returns>Certain response</returns>
         ResponseBase MakegRpcRequest(IRequest request);
-
-        
-        
-        /// <summary>
-        /// Gets data of certain type from json result
-        /// </summary>
-        /// <param name="jsonResult">json string from response</param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns>data</returns>
-        T GetRandomData<T>(string jsonResult);
-        
         
         /// <summary>
         /// Generates array of random integers asynchronously

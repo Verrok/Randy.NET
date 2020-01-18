@@ -11,7 +11,7 @@ namespace RandyConsole
         {
             GeneratorClient client = new GeneratorClient("9816823a-ba13-4a23-a601-bbbe6997a0cb");
 
-            var resp = await client.GetIntegersAsync(2, 0, 10);
+            var resp = await client.GetIntegerSequencesAsync(10, 10, 0, 400);
             
             Console.WriteLine(resp.Id);
             Console.WriteLine(resp.ResultInfo.AdvisoryDelay);
@@ -19,6 +19,11 @@ namespace RandyConsole
             Console.WriteLine(resp.ResultInfo.BitsUsed);
             Console.WriteLine(resp.ResultInfo.RequestsLeft);
             Console.WriteLine(resp.JsonResponse);
+            
+            foreach (var i in resp.Data)
+            {
+                Console.WriteLine(string.Join(" ", i));
+            }
         }
     }
 }

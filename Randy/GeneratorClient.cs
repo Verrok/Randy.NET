@@ -20,7 +20,7 @@ namespace Randy
         private readonly string _apiVersion;
         private readonly JsonSerializerOptions _options;
         private readonly Random _rnd;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
         public GeneratorClient(string apiKey, ApiVersion ver = ApiVersion.V2, HttpClient client = null)
         {
             _rnd = new Random();
@@ -92,13 +92,6 @@ namespace Randy
         {
             throw new NotImplementedException();
         }
-        public T GetRandomData<T>(string jsonResult)
-        {
-            using JsonDocument document = JsonDocument.Parse(jsonResult);
-            var prop = document.RootElement.GetProperty("result").GetProperty("random").GetProperty("data");
-            T data = JsonSerializer.Deserialize<T>(prop.ToString());
-            return data;
-        }
 
         public async Task<GetIntegerResponse> GetIntegersAsync(int count, int min, int max, bool replacement = true, int @base = 10,
             CancellationToken cancellationToken = default)
@@ -119,7 +112,7 @@ namespace Randy
 
             GetIntegerResponse response = _mapper.Map<GetIntegerResponse>(responseBase);
 
-            // response.Data = GetRandomData<IEnumerable<int>>(responseBase.JsonResponse);
+            response.Data = DataConverter.GetRandomData<IEnumerable<int>>(responseBase.JsonResponse);
             
             return response;
         }
@@ -132,40 +125,51 @@ namespace Randy
         public async Task<GetIntegerSequencesRequest> GetIntegerSequencesAsync(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement,
             IEnumerable<int> @base, CancellationToken cancellationToken = default)
         {
-            // Request request = new Request();
-            // request.Jsonrpc = _apiVersion;
-            // request.Method = "generateIntegerSequences";
-            // request.Id = _rnd.Next(1, 1000);
-            //
-            // request.Params.Add("apiKey", _apiKey);
-            // request.Params.Add("n", count);
-            // request.Params.Add("length", length);
-            // request.Params.Add("min", min);
-            // request.Params.Add("max", max);
-            // request.Params.Add("replacement", replacement);
-            // request.Params.Add("base", @base);
-            return null;
-            //return MakegRpcRequestAsync<GetIntegerSequencesRequest>(request, cancellationToken);
+            Request request = new Request();
+            request.Jsonrpc = _apiVersion;
+            request.Method = "generateIntegerSequences";
+            request.Id = _rnd.Next(1, 1000);
+            
+            request.Params.Add("apiKey", _apiKey);
+            request.Params.Add("n", count);
+            request.Params.Add("length", length);
+            request.Params.Add("min", min);
+            request.Params.Add("max", max);
+            request.Params.Add("replacement", replacement);
+            request.Params.Add("base", @base);
+            
+            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken);
+
+            GetIntegerSequencesRequest response = _mapper.Map<GetIntegerSequencesRequest>(responseBase);
+
+            response.Data = DataConverter.GetRandomData<IEnumerable<IEnumerable<int>>>(responseBase.JsonResponse);
+            
+            return response;
         }
 
         public async Task<GetIntegerSequencesRequest> GetIntegerSequencesAsync(int count, int length, int min, int max, bool replacement = true, int @base = 10,
             CancellationToken cancellationToken = default)
         {
-            // Request request = new Request();
-            // request.Jsonrpc = _apiVersion;
-            // request.Method = "generateIntegerSequences";
-            // request.Id = _rnd.Next(1, 1000);
-            //
-            // request.Params.Add("apiKey", _apiKey);
-            // request.Params.Add("n", count);
-            // request.Params.Add("length", length);
-            // request.Params.Add("min", min);
-            // request.Params.Add("max", max);
-            // request.Params.Add("replacement", replacement);
-            // request.Params.Add("base", @base);
+            Request request = new Request();
+            request.Jsonrpc = _apiVersion;
+            request.Method = "generateIntegerSequences";
+            request.Id = _rnd.Next(1, 1000);
+            
+            request.Params.Add("apiKey", _apiKey);
+            request.Params.Add("n", count);
+            request.Params.Add("length", length);
+            request.Params.Add("min", min);
+            request.Params.Add("max", max);
+            request.Params.Add("replacement", replacement);
+            request.Params.Add("base", @base);
 
-            return null;
-            //return MakegRpcRequestAsync<GetIntegerSequencesRequest>(request, cancellationToken);
+            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken);
+
+            GetIntegerSequencesRequest response = _mapper.Map<GetIntegerSequencesRequest>(responseBase);
+
+            response.Data = DataConverter.GetRandomData<IEnumerable<IEnumerable<int>>>(responseBase.JsonResponse);
+            
+            return response;
         }
 
         public GetIntegerSequencesRequest GetIntegerSequences(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max,
