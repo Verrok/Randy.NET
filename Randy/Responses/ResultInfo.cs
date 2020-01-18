@@ -29,9 +29,5 @@ namespace Randy.Responses
         /// </summary>
         public int AdvisoryDelay { get; set; }
         
-        /// <summary>
-        /// An integer containing ID of request
-        /// </summary>
-        public int Id { get; set; }
     }
 }

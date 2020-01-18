@@ -15,5 +15,11 @@ namespace Randy.Responses.Abstractions
         /// JSON string of response
         /// </summary>
         public string JsonResponse { get; set; }
+        
+        
+        /// <summary>
+        /// An integer containing ID of request
+        /// </summary>
+        public int Id { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace RandyConsole
 
             var resp = await client.GetIntegersAsync(2, 0, 10);
             
-            Console.WriteLine(resp.ResultInfo.Id);
+            Console.WriteLine(resp.Id);
             Console.WriteLine(resp.ResultInfo.AdvisoryDelay);
             Console.WriteLine(resp.ResultInfo.BitsLeft);
             Console.WriteLine(resp.ResultInfo.BitsUsed);
