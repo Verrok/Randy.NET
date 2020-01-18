@@ -1,12 +1,12 @@
+using System.Text.Json.Serialization;
+using Randy.Responses.Abstractions;
 
-using System;
-using Randy.Requests.Abstractions;
-
-namespace Randy.Requests.Responses
+namespace Randy.Responses
 {
     public class ResponseBase : IResponse
     {
-        public ResultInfo ResultInfo { get; set; }
+        [JsonPropertyName("result")]
+        public ResultInfo ResultInfo { get; set; } = new ResultInfo();
         public string JsonResponse { get; set; }
     }
 }

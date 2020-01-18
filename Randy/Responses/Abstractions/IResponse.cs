@@ -1,8 +1,6 @@
-﻿using System;
-using System.Text.Json.Serialization;
-using Randy.Requests.Responses;
+﻿using System.Text.Json.Serialization;
 
-namespace Randy.Requests.Abstractions
+namespace Randy.Responses.Abstractions
 {
     public interface IResponse
     {
@@ -10,7 +8,6 @@ namespace Randy.Requests.Abstractions
         /// <summary>
         /// Additional information about response
         /// </summary>
-        [JsonPropertyName("result")]
         public ResultInfo ResultInfo { get; set; }
 
         

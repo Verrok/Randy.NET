@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Randy.Requests.Abstractions;
+﻿using System.Collections.Generic;
 
-namespace Randy.Requests.Responses
+namespace Randy.Responses
 {
-    public class GetGaussiansResponse : IResponse
+    public class GetGaussiansResponse : ResponseBase
     {
         public IEnumerable<decimal> Data { get; set; }
-        public ResultInfo ResultInfo { get; set; }
-        public string JsonResponse { get; set; }
     }
 }

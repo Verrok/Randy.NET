@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Randy.Requests.Abstractions;
-using Randy.Requests.Responses;
+using Randy.Responses;
 
 namespace Randy
 {

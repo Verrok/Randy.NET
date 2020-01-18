@@ -8,7 +8,7 @@ using AutoMapper;
 using Randy.Enums;
 using Randy.Requests;
 using Randy.Requests.Abstractions;
-using Randy.Requests.Responses;
+using Randy.Responses;
 
 namespace Randy
 {

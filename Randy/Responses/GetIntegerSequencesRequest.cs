@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Randy.Requests.Abstractions;
+﻿using System.Collections.Generic;
 
-namespace Randy.Requests.Responses
+namespace Randy.Responses
 {
-    public class GetIntegerSequencesRequest : IResponse
+    public class GetIntegerSequencesRequest : ResponseBase
     {
         public IEnumerable<IEnumerable<int>> Data { get; set; }
-        public ResultInfo ResultInfo { get; set; }
-        public string JsonResponse { get; set; }
     }
 }

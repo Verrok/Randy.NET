@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Randy;
 using Randy.Requests;
-using Randy.Requests.Responses;
 
 namespace RandyConsole
 {
@@ -14,11 +13,11 @@ namespace RandyConsole
 
             var resp = await client.GetIntegersAsync(2, 0, 10);
             
-            Console.WriteLine(resp.Id);
-            Console.WriteLine(resp.AdvisoryDelay);
-            Console.WriteLine(resp.BitsLeft);
-            Console.WriteLine(resp.BitsUsed);
-            Console.WriteLine(resp.RequestsLeft);
+            Console.WriteLine(resp.ResultInfo.Id);
+            Console.WriteLine(resp.ResultInfo.AdvisoryDelay);
+            Console.WriteLine(resp.ResultInfo.BitsLeft);
+            Console.WriteLine(resp.ResultInfo.BitsUsed);
+            Console.WriteLine(resp.ResultInfo.RequestsLeft);
             Console.WriteLine(resp.JsonResponse);
         }
     }
