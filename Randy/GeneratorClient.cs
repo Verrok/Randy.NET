@@ -94,7 +94,10 @@ namespace Randy
         }
         public T GetRandomData<T>(string jsonResult)
         {
-            throw new NotImplementedException();
+            using JsonDocument document = JsonDocument.Parse(jsonResult);
+            var prop = document.RootElement.GetProperty("result").GetProperty("random").GetProperty("data");
+            T data = JsonSerializer.Deserialize<T>(prop.ToString());
+            return data;
         }
 
         public async Task<GetIntegerResponse> GetIntegersAsync(int count, int min, int max, bool replacement = true, int @base = 10,
