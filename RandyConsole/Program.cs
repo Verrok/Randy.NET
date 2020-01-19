@@ -11,7 +11,7 @@ namespace RandyConsole
         {
             GeneratorClient client = new GeneratorClient("9816823a-ba13-4a23-a601-bbbe6997a0cb");
 
-            var resp = await client.GetGaussiansAsync(10, 10, 10, 10);
+            var resp = await client.GetStringsAsync(10, 10, "abcdef");
             
             Console.WriteLine(resp.Id);
             Console.WriteLine(resp.ResultInfo.AdvisoryDelay);

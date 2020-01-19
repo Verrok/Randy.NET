@@ -2,7 +2,7 @@
 
 namespace Randy.Responses
 {
-    public class GetIntegerSequencesRequest : ResponseBase
+    public class GetIntegerSequencesResponse : ResponseBase
     {
         public IEnumerable<IEnumerable<int>> Data { get; set; }
     }
