@@ -210,19 +210,24 @@ namespace Randy
 
         public async Task<GetGaussiansResponse> GetGaussiansAsync(int count, int mean, int deviation, int digits, CancellationToken cancellationToken = default)
         {
-            // Request request = new Request();
-            // request.Jsonrpc = _apiVersion;
-            // request.Method = "generateGaussians";
-            // request.Id = _rnd.Next(1, 1000);
-            //
-            // request.Params.Add("apiKey", _apiKey);
-            // request.Params.Add("n", count);
-            // request.Params.Add("mean", mean);
-            // request.Params.Add("standardDeviation", deviation);
-            // request.Params.Add("significantDigits", digits);
+            Request request = new Request();
+            request.Jsonrpc = _apiVersion;
+            request.Method = "generateGaussians";
+            request.Id = _rnd.Next(1, 1000);
+            
+            request.Params.Add("apiKey", _apiKey);
+            request.Params.Add("n", count);
+            request.Params.Add("mean", mean);
+            request.Params.Add("standardDeviation", deviation);
+            request.Params.Add("significantDigits", digits);
 
-            return null;
-            //return MakegRpcRequestAsync<GetGaussiansResponse>(request, cancellationToken);
+            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken);
+
+            GetGaussiansResponse response = _mapper.Map<GetGaussiansResponse>(responseBase);
+
+            response.Data = DataConverter.GetRandomData<IEnumerable<decimal> >(responseBase.JsonResponse);
+            response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
+            return response;
         }
 
         public GetGaussiansResponse GetGaussians(int count, int mean, int deviation, int digits)
