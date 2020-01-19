@@ -113,7 +113,8 @@ namespace Randy
             GetIntegerResponse response = _mapper.Map<GetIntegerResponse>(responseBase);
 
             response.Data = DataConverter.GetRandomData<IEnumerable<int>>(responseBase.JsonResponse);
-            
+            response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
+
             return response;
         }
 
@@ -143,7 +144,8 @@ namespace Randy
             GetIntegerSequencesRequest response = _mapper.Map<GetIntegerSequencesRequest>(responseBase);
 
             response.Data = DataConverter.GetRandomData<IEnumerable<IEnumerable<int>>>(responseBase.JsonResponse);
-            
+            response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
+
             return response;
         }
 
@@ -168,7 +170,8 @@ namespace Randy
             GetIntegerSequencesRequest response = _mapper.Map<GetIntegerSequencesRequest>(responseBase);
 
             response.Data = DataConverter.GetRandomData<IEnumerable<IEnumerable<int>>>(responseBase.JsonResponse);
-            
+            response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
+
             return response;
         }
 
@@ -181,18 +184,23 @@ namespace Randy
         public async Task<GetDecimalFractionsResponse> GetDecimalFractionsAsync(int count, int decimalPlaces, bool replacement = true,
             CancellationToken cancellationToken = default)
         {
-            // Request request = new Request();
-            // request.Jsonrpc = _apiVersion;
-            // request.Method = "generateDecimalFractions";
-            // request.Id = _rnd.Next(1, 1000);
-            //
-            // request.Params.Add("apiKey", _apiKey);
-            // request.Params.Add("n", count);
-            // request.Params.Add("decimalPlaces", decimalPlaces);
-            // request.Params.Add("replacement", replacement);
+            Request request = new Request();
+            request.Jsonrpc = _apiVersion;
+            request.Method = "generateDecimalFractions";
+            request.Id = _rnd.Next(1, 1000);
+            
+            request.Params.Add("apiKey", _apiKey);
+            request.Params.Add("n", count);
+            request.Params.Add("decimalPlaces", decimalPlaces);
+            request.Params.Add("replacement", replacement);
 
-            return null;
-            //return MakegRpcRequestAsync<GetDecimalFractionsResponse>(request, cancellationToken);
+            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken);
+
+            GetDecimalFractionsResponse response = _mapper.Map<GetDecimalFractionsResponse>(responseBase);
+
+            response.Data = DataConverter.GetRandomData<IEnumerable<decimal> >(responseBase.JsonResponse);
+            response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
+            return response;
         }
 
         public GetDecimalFractionsResponse GetDecimalFractions(int count, int decimalPlaces, bool replacement = true)

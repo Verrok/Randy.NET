@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Randy.Responses.Abstractions
 {
@@ -21,5 +22,10 @@ namespace Randy.Responses.Abstractions
         /// An integer containing ID of request
         /// </summary>
         public int Id { get; set; }
+        
+        /// <summary>
+        /// A string containing the timestamp in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format at which the request was completed.
+        /// </summary>
+        public DateTime CompletionTime { get; set; }
     }
 }

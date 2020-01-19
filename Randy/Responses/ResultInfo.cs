@@ -4,11 +4,7 @@ namespace Randy.Responses
 {
     public class ResultInfo
     {
-        /// <summary>
-        /// A string containing the timestamp in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format at which the request was completed.
-        /// </summary>
-        public DateTime CompletionTime { get; set; }
-        
+
         /// <summary>
         /// An integer containing the number of true random bits used to complete this request.
         /// </summary>
