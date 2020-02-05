@@ -21,6 +21,7 @@ namespace Randy
         private readonly JsonSerializerOptions _options;
         private readonly Random _rnd;
         private readonly IMapper _mapper;
+        private readonly Array _charset;
         public GeneratorClient(string apiKey, ApiVersion ver = ApiVersion.V2, HttpClient client = null)
         {
             _rnd = new Random();
@@ -30,6 +31,7 @@ namespace Randy
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
+            _charset = Enum.GetValues(typeof(CharSet));
             switch (ver)
             {
                 case ApiVersion.V2:
@@ -260,6 +262,36 @@ namespace Randy
             response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
             return response;
         }
+
+        public async Task<GetStringsResponse> GetStringsAsync(int count, int length, CharSet set, bool replacement = true,
+            CancellationToken cancellationToken = default)
+        {
+            string res = "";
+            string tmp;
+
+            foreach (CharSet c in _charset)
+            {
+                tmp = DataConverter.GetStringFromCharSet(set & c);
+
+                if (tmp.Contains(res))
+                {
+                    res = tmp;
+                }
+                else
+                {
+                    res += tmp;
+                }
+            }
+
+            return await GetStringsAsync(count, length, res, replacement);
+        }
+
+        public async Task<GetStringsResponse> GetStringsAsync(int count, int length, bool replacement = true,
+            CancellationToken cancellationToken = default)
+        {
+            return await GetStringsAsync(count, length, DataConverter.GetStringFromCharSet(CharSet.All), replacement);
+        }
+
 
         public GetStringsResponse GetStrings(int count, int length, string characters, bool replacement = true)
         {
