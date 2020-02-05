@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Randy;
 using Randy.Requests;
-using Randy.Requests.Responses;
 
 namespace RandyConsole
 {
@@ -11,18 +10,21 @@ namespace RandyConsole
         static async Task Main(string[] args)
         {
             GeneratorClient client = new GeneratorClient("9816823a-ba13-4a23-a601-bbbe6997a0cb");
-            
-            Request req = new Request();
 
-            req.Jsonrpc = "2.0";
-            req.Id = 32;
-            req.Method = "generateIntegers";
-            req.Params.Add("apiKey", "9816823a-ba13-4a23-a601-bbbe6997a0cb");
-            req.Params.Add("n", 2);
-            req.Params.Add("min", 3);
-            req.Params.Add("max", 78);
+            var resp = await client.GetStringsAsync(10, 10, "abcdef");
             
-            await client.MakegRpcRequestAsync<GetIntegerResponse>(req);
+            Console.WriteLine(resp.Id);
+            Console.WriteLine(resp.ResultInfo.AdvisoryDelay);
+            Console.WriteLine(resp.ResultInfo.BitsLeft);
+            Console.WriteLine(resp.ResultInfo.BitsUsed);
+            Console.WriteLine(resp.ResultInfo.RequestsLeft);
+            Console.WriteLine(resp.JsonResponse);
+            Console.WriteLine(resp.CompletionTime);
+            
+            foreach (var i in resp.Data)
+            {
+                Console.WriteLine(i);
+            }
         }
     }
 }
