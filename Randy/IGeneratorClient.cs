@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Randy.Requests.Abstractions;
-using Randy.Requests.Responses;
+using Randy.Responses;
 
 namespace Randy
 {
@@ -16,7 +17,7 @@ namespace Randy
         /// <param name="cancellationToken">CancellationToken</param>
         /// <typeparam name="T">One of the responses</typeparam>
         /// <returns>Task with certain response</returns>
-        Task<T> MakegRpcRequestAsync<T>(IRequest request, CancellationToken cancellationToken = default);
+        Task<ResponseBase> MakegRpcRequestAsync(IRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Makes gRPC request to Random.org server
@@ -24,8 +25,8 @@ namespace Randy
         /// <param name="request">Request class</param>
         /// <typeparam name="T">One of the responses</typeparam>
         /// <returns>Certain response</returns>
-        T MakegRpcRequest<T>(IRequest request);
-
+        ResponseBase MakegRpcRequest(IRequest request);
+        
         /// <summary>
         /// Generates array of random integers asynchronously
         /// </summary>
@@ -60,7 +61,7 @@ namespace Randy
         /// <param name="base">Base to display numbers. Length must equals to count param. Allowed 2, 8, 10 and 16. Default = 10.</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Task with response</returns>
-        Task<GetIntegerSequencesRequest> GetIntegerSequencesAsync(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement, IEnumerable<int> @base, CancellationToken cancellationToken = default);
+        Task<GetIntegerSequencesResponse> GetIntegerSequencesAsync(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement, IEnumerable<int> @base, CancellationToken cancellationToken = default);
         
         /// <summary>
         /// Generates sequences of random integers asynchronously
@@ -73,7 +74,7 @@ namespace Randy
         /// <param name="base">Base to display numbers. Length must equals to 1 or to count. Allowed 2, 8, 10 and 16. Default = 10.</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Task with response</returns>
-        Task<GetIntegerSequencesRequest> GetIntegerSequencesAsync(int count, int length, int min, int max, bool replacement = true, int @base = 10, CancellationToken cancellationToken = default);
+        Task<GetIntegerSequencesResponse> GetIntegerSequencesAsync(int count, int length, int min, int max, bool replacement = true, int @base = 10, CancellationToken cancellationToken = default);
         
         /// <summary>
         /// Generates sequences of random integers 
@@ -86,7 +87,7 @@ namespace Randy
         /// <param name="base">Base to display numbers. Length must equals to 1 or to count. Allowed 2, 8, 10 and 16. Default = 10.</param>
         /// <returns>Response/></returns>
         
-        GetIntegerSequencesRequest GetIntegerSequences(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement, IEnumerable<int> @base);
+        GetIntegerSequencesResponse GetIntegerSequences(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement, IEnumerable<int> @base);
 
         /// <summary>
         /// Generates random <a href="https://en.wikipedia.org/wiki/Decimal#Decimal_fractions">decimal fraction</a> from a uniform distribution across the [0,1] interval with a user-defined number of decimal places asynchronously
@@ -127,8 +128,11 @@ namespace Randy
         /// <param name="digits">The number of significant digits to use. Must be within the [2,14] range.</param>
         /// <returns>Task with response</returns>
         GetGaussiansResponse GetGaussians(int count, int mean, int deviation, int digits);
-        
-     
+
+
+        Task<GetStringsResponse> GetStringsAsync(int count, int length, string characters, bool replacement = true, CancellationToken cancellationToken = default);
+
+        GetStringsResponse GetStrings(int count, int length, string characters, bool replacement = true);
 
 
     }
