@@ -135,13 +135,64 @@ namespace Randy
         /// <returns>Task with response</returns>
         GetGaussiansResponse GetGaussians(int count, int mean, int deviation, int digits);
 
+        /// <summary>
+        /// Generates random string from characters set
+        /// </summary>
+        /// <param name="count">Count of generated strings. Must be less than 10000</param>
+        /// <param name="length">String length. Must be in [1, 32] range</param>
+        /// <param name="characters">Character set that generated string consists of. Must be less than 32</param>
+        /// <param name="replacement">If true array can contains duplicate values, else contains unique. Default = true</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Task with response</returns>
 
         Task<GetStringsResponse> GetStringsAsync(int count, int length, string characters, bool replacement = true, CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Generates random string from characters set
+        /// </summary>
+        /// <param name="count">Count of generated strings. Must be less than 10000</param>
+        /// <param name="length">String length. Must be in [1, 32] range</param>
+        /// <param name="set">Sets of string see</param>
+        /// <seealso cref="DataConverter"/>>
+        /// <param name="replacement">If true array can contains duplicate values, else contains unique. Default = true</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Task with response</returns>
         Task<GetStringsResponse> GetStringsAsync(int count, int length, CharSet set, bool replacement = true, CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Generates random string from characters set. String will contain all characters from CharSet enum
+        /// </summary>
+        /// <param name="count">Count of generated strings. Must be less than 10000</param>
+        /// <param name="length">String length. Must be in [1, 32] range</param>
+        /// <param name="replacement">If true array can contains duplicate values, else contains unique. Default = true</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Task with response</returns>
         Task<GetStringsResponse> GetStringsAsync(int count, int length, bool replacement = true, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Generates random string from characters set
+        /// </summary>
+        /// <param name="count">Count of generated strings. Must be less than 10000</param>
+        /// <param name="length">String length. Must be in [1, 32] range</param>
+        /// <param name="characters">Character set that generated string consists of. Must be less than 32</param>
+        /// <param name="replacement">If true array can contains duplicate values, else contains unique. Default = true</param>
+        /// <returns>Response</returns>
         GetStringsResponse GetStrings(int count, int length, string characters, bool replacement = true);
+        /// <summary>
+        /// Generates random string from characters set
+        /// </summary>
+        /// <param name="count">Count of generated strings. Must be less than 10000</param>
+        /// <param name="length">String length. Must be in [1, 32] range</param>
+        /// <param name="set">Sets of string see</param>
+        /// <seealso cref="DataConverter"/>>
+        /// <param name="replacement">If true array can contains duplicate values, else contains unique. Default = true</param>
+        /// <returns>Response</returns>
         GetStringsResponse GetStrings(int count, int length, CharSet set, bool replacement = true);
+        /// <summary>
+        /// Generates random string from characters set. String will contain all characters from CharSet enum
+        /// </summary>
+        /// <param name="count">Count of generated strings. Must be less than 10000</param>
+        /// <param name="length">String length. Must be in [1, 32] range</param>
+        /// <param name="replacement">If true array can contains duplicate values, else contains unique. Default = true</param>
+        /// <returns>Response</returns>
         GetStringsResponse GetStrings(int count, int length, bool replacement = true);
 
 
