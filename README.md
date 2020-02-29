@@ -1,7 +1,7 @@
 
 ## Installation
 
-To easy install you need to use [NuGet](http://docs.nuget.org/docs/start-here/installing-nuget)
+For easy installation use [NuGet](http://docs.nuget.org/docs/start-here/installing-nuget)
 
 ```
 PM> Install-Package Randy.NET
@@ -28,7 +28,7 @@ You can check methods' arguments ranges in `summary` or in [random.org documenta
 
 ## Dependencies
 
-- Automapper >= 9.0.0
+- [Automapper](https://automapper.org/) >= 9.0.0
 
 ## Third party
 
@@ -37,3 +37,10 @@ You can check methods' arguments ranges in `summary` or in [random.org documenta
 ## Contribution
 
 If you find a bug, want to suggest an improvement or have a question, feel free to create an issue above
+
+## To do
+
+- [ ] `GetUUIDs` method
+- [ ] `GetBlobs` method
+- [ ] `GetUsage` method
+- [ ] Some integrations tests
