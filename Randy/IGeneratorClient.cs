@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Randy.Enums;
 using Randy.Requests.Abstractions;
 using Randy.Responses;
 
@@ -136,8 +137,12 @@ namespace Randy
 
 
         Task<GetStringsResponse> GetStringsAsync(int count, int length, string characters, bool replacement = true, CancellationToken cancellationToken = default);
+        Task<GetStringsResponse> GetStringsAsync(int count, int length, CharSet set, bool replacement = true, CancellationToken cancellationToken = default);
+        Task<GetStringsResponse> GetStringsAsync(int count, int length, bool replacement = true, CancellationToken cancellationToken = default);
 
         GetStringsResponse GetStrings(int count, int length, string characters, bool replacement = true);
+        GetStringsResponse GetStrings(int count, int length, CharSet set, bool replacement = true);
+        GetStringsResponse GetStrings(int count, int length, bool replacement = true);
 
 
     }

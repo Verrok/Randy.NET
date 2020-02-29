@@ -296,7 +296,19 @@ namespace Randy
 
         public GetStringsResponse GetStrings(int count, int length, string characters, bool replacement = true)
         {
-            throw new NotImplementedException();
+            return AsyncHelper.RunSync(() => GetStringsAsync(count, length, characters, replacement));
+        }
+        
+        public GetStringsResponse GetStrings(int count, int length, CharSet set, bool replacement = true)
+        {
+            return AsyncHelper.RunSync(() => GetStringsAsync(count, length, set, replacement));
+
+        }
+        
+        public GetStringsResponse GetStrings(int count, int length, bool replacement = true)
+        {
+            return AsyncHelper.RunSync(() => GetStringsAsync(count, length, replacement));
+
         }
     }
 }
