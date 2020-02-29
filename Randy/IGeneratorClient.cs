@@ -18,14 +18,6 @@ namespace Randy
         /// <typeparam name="T">One of the responses</typeparam>
         /// <returns>Task with certain response</returns>
         Task<ResponseBase> MakegRpcRequestAsync(IRequest request, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Makes gRPC request to Random.org server
-        /// </summary>
-        /// <param name="request">Request class</param>
-        /// <typeparam name="T">One of the responses</typeparam>
-        /// <returns>Certain response</returns>
-        ResponseBase MakegRpcRequest(IRequest request);
         
         /// <summary>
         /// Generates array of random integers asynchronously

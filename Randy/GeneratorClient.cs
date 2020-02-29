@@ -91,11 +91,6 @@ namespace Randy
             return resp;
         }
 
-        public ResponseBase MakegRpcRequest(IRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<GetIntegerResponse> GetIntegersAsync(int count, int min, int max, bool replacement = true, int @base = 10,
             CancellationToken cancellationToken = default)
         {
@@ -123,7 +118,7 @@ namespace Randy
 
         public GetIntegerResponse GetIntegers(int count, int min, int max, bool replacement = true, int @base = 10)
         {
-            throw new NotImplementedException();
+            return AsyncHelper.RunSync(() => GetIntegersAsync(count, min, max, replacement, @base));
         }
 
         public async Task<GetIntegerSequencesResponse> GetIntegerSequencesAsync(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement,
