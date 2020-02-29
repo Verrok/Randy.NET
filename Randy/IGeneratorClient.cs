@@ -82,6 +82,19 @@ namespace Randy
         GetIntegerSequencesResponse GetIntegerSequences(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement, IEnumerable<int> @base);
 
         /// <summary>
+        /// Generates sequences of random integers 
+        /// </summary>
+        /// <param name="count">Count of random sequences integers. Must be in [1, 1e4] range</param>
+        /// <param name="length">Length of sequences</param>
+        /// <param name="min">The lower boundary for the range. Must be in [-1e9,1e9] range.</param>
+        /// <param name="max">The upper boundary for the range. Must be in [-1e9,1e9] range.</param>
+        /// <param name="replacement">If true array can contains duplicate values, else contains unique. Length must equals to 1 or to count. Default = true</param>
+        /// <param name="base">Base to display numbers. Length must equals to 1 or to count. Allowed 2, 8, 10 and 16. Default = 10.</param>
+        /// <returns>Response/></returns>
+        
+        GetIntegerSequencesResponse GetIntegerSequences(int count, int length, int min, int max, bool replacement = true, int @base = 10);
+        
+        /// <summary>
         /// Generates random <a href="https://en.wikipedia.org/wiki/Decimal#Decimal_fractions">decimal fraction</a> from a uniform distribution across the [0,1] interval with a user-defined number of decimal places asynchronously
         /// </summary>
         /// <param name="count">Count of fractions. Must be in [1, 1e4] range</param>

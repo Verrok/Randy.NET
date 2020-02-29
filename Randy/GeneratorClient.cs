@@ -176,8 +176,14 @@ namespace Randy
         public GetIntegerSequencesResponse GetIntegerSequences(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max,
             IEnumerable<bool> replacement, IEnumerable<int> @base)
         {
-            throw new NotImplementedException();
+            return AsyncHelper.RunSync(() => GetIntegerSequencesAsync(count, length, min, max, replacement, @base));
         }
+        
+        public GetIntegerSequencesResponse GetIntegerSequences(int count, int length, int min, int max, bool replacement = true, int @base = 10)
+        {
+            return AsyncHelper.RunSync(() => GetIntegerSequencesAsync(count, length, min, max, replacement, @base));
+        }
+        
 
         public async Task<GetDecimalFractionsResponse> GetDecimalFractionsAsync(int count, int decimalPlaces, bool replacement = true,
             CancellationToken cancellationToken = default)
