@@ -209,7 +209,7 @@ namespace Randy
 
         public GetDecimalFractionsResponse GetDecimalFractions(int count, int decimalPlaces, bool replacement = true)
         {
-            throw new NotImplementedException();
+            return AsyncHelper.RunSync(() => GetDecimalFractionsAsync(count, decimalPlaces, replacement));
         }
 
         public async Task<GetGaussiansResponse> GetGaussiansAsync(int count, int mean, int deviation, int digits, CancellationToken cancellationToken = default)
@@ -237,7 +237,7 @@ namespace Randy
 
         public GetGaussiansResponse GetGaussians(int count, int mean, int deviation, int digits)
         {
-            throw new NotImplementedException();
+            return AsyncHelper.RunSync(() => GetGaussiansAsync(count, mean, deviation, digits));
         }
 
         public async Task<GetStringsResponse> GetStringsAsync(int count, int length, string characters, bool replacement = true,
