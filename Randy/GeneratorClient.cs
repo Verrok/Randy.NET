@@ -283,13 +283,13 @@ namespace Randy
                 }
             }
 
-            return await GetStringsAsync(count, length, res, replacement);
+            return await GetStringsAsync(count, length, res, replacement, cancellationToken);
         }
 
         public async Task<GetStringsResponse> GetStringsAsync(int count, int length, bool replacement = true,
             CancellationToken cancellationToken = default)
         {
-            return await GetStringsAsync(count, length, DataConverter.GetStringFromCharSet(CharSet.All), replacement);
+            return await GetStringsAsync(count, length, DataConverter.GetStringFromCharSet(CharSet.All), replacement, cancellationToken);
         }
 
 

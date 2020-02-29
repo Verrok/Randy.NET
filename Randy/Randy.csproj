@@ -2,6 +2,14 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
+        <PackageId>Randy.NET</PackageId>
+        <Title>Randy.NET</Title>
+        <Authors>Verrok</Authors>
+        <Description>.NET Client for Random.org gRPC Api https://api.random.org/json-rpc/2</Description>
+        <PackageProjectUrl>https://github.com/Verrok/Randy.NET</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/Verrok/Randy.NET/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageIconUrl>https://i.ibb.co/WKH3n2r/randy.png</PackageIconUrl>
+        <RepositoryUrl>https://github.com/Verrok/Randy.NET</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
