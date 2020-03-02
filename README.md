@@ -38,6 +38,10 @@ You can check methods' arguments ranges in `summary` or in [random.org documenta
 
 If you find a bug, want to suggest an improvement or have a question, feel free to create an issue above
 
+## Support
+
+Part of [random.org](random.org) **[Contributed libraries](https://api.random.org/json-rpc/2/source-code)**
+
 ## To do
 
 - [ ] `GetUUIDs` method
