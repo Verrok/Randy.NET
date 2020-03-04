@@ -24,8 +24,9 @@ Then you can use necessary method to get the result of true randomness. Client s
 - `GetGaussians`
 - `GetStrings`
 
-You can check methods' arguments ranges in `summary` or in [random.org documentation](https://api.random.org/json-rpc/2/basic) 
-
+***
+- You can check methods' arguments ranges in `summary` or in [random.org documentation](https://api.random.org/json-rpc/2/basic) 
+- Available bases for integers: `2`, `8`, `10`, `16`
 ## Dependencies
 
 - [Automapper](https://automapper.org/) >= 9.0.0
