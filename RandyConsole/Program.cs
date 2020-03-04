@@ -11,7 +11,7 @@ namespace RandyConsole
         {
             GeneratorClient client = new GeneratorClient("9816823a-ba13-4a23-a601-bbbe6997a0cb");
 
-            var resp = client.GetIntegerSequences(3, new []{ 1,2,3 }, new []{ 1,2,3 }, new []{ 10,20,30 }, new []{ true, true, true }, 2);
+            var resp = client.GetStrings(10, 10, CharSet.All);
             
             Console.WriteLine(resp.Id);
             Console.WriteLine(resp.ResultInfo.AdvisoryDelay);

@@ -21,7 +21,6 @@ namespace Randy
         private readonly JsonSerializerOptions _options;
         private readonly Random _rnd;
         private readonly IMapper _mapper;
-        private readonly Array _charset;
         public GeneratorClient(string apiKey, ApiVersion ver = ApiVersion.V2, HttpClient client = null)
         {
             _rnd = new Random();
@@ -31,7 +30,6 @@ namespace Randy
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
-            _charset = Enum.GetValues(typeof(CharSet));
             switch (ver)
             {
                 case ApiVersion.V2:
@@ -48,8 +46,7 @@ namespace Randy
             });
 
             _mapper = config.CreateMapper();
-
-
+            
         }
 
 
@@ -94,10 +91,7 @@ namespace Randy
         public async Task<GetIntegerResponse> GetIntegersAsync(int count, int min, int max, bool replacement = true, int @base = 10,
             CancellationToken cancellationToken = default)
         {
-            Request request = new Request();
-            request.Jsonrpc = _apiVersion;
-            request.Method = "generateIntegers";
-            request.Id = _rnd.Next(1, 1000);
+            var request = InitRequest("generateIntegers");
             
             request.Params.Add("apiKey", _apiKey);
             request.Params.Add("n", count);
@@ -128,10 +122,7 @@ namespace Randy
         public async Task<GetIntegerSequencesResponse> GetIntegerSequencesAsync(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement,
             int @base, CancellationToken cancellationToken = default)
         {
-            Request request = new Request();
-            request.Jsonrpc = _apiVersion;
-            request.Method = "generateIntegerSequences";
-            request.Id = _rnd.Next(1, 1000);
+            var request = InitRequest("generateIntegerSequences");
             
             request.Params.Add("apiKey", _apiKey);
             request.Params.Add("n", count);
@@ -156,10 +147,7 @@ namespace Randy
         public async Task<GetIntegerSequencesResponse> GetIntegerSequencesAsync(int count, int length, int min, int max, bool replacement = true, int @base = 10,
             CancellationToken cancellationToken = default)
         {
-            Request request = new Request();
-            request.Jsonrpc = _apiVersion;
-            request.Method = "generateIntegerSequences";
-            request.Id = _rnd.Next(1, 1000);
+            var request = InitRequest("generateIntegerSequences");
             
             request.Params.Add("apiKey", _apiKey);
             request.Params.Add("n", count);
@@ -195,10 +183,7 @@ namespace Randy
         public async Task<GetDecimalFractionsResponse> GetDecimalFractionsAsync(int count, int decimalPlaces, bool replacement = true,
             CancellationToken cancellationToken = default)
         {
-            Request request = new Request();
-            request.Jsonrpc = _apiVersion;
-            request.Method = "generateDecimalFractions";
-            request.Id = _rnd.Next(1, 1000);
+            var request = InitRequest("generateDecimalFractions");
             
             request.Params.Add("apiKey", _apiKey);
             request.Params.Add("n", count);
@@ -221,10 +206,7 @@ namespace Randy
 
         public async Task<GetGaussiansResponse> GetGaussiansAsync(int count, int mean, int deviation, int digits, CancellationToken cancellationToken = default)
         {
-            Request request = new Request();
-            request.Jsonrpc = _apiVersion;
-            request.Method = "generateGaussians";
-            request.Id = _rnd.Next(1, 1000);
+            var request = InitRequest("generateGaussians");
             
             request.Params.Add("apiKey", _apiKey);
             request.Params.Add("n", count);
@@ -250,11 +232,7 @@ namespace Randy
         public async Task<GetStringsResponse> GetStringsAsync(int count, int length, string characters, bool replacement = true,
             CancellationToken cancellationToken = default)
         {
-            Request request = new Request();
-            request.Jsonrpc = _apiVersion;
-            request.Method = "generateStrings";
-            request.Id = _rnd.Next(1, 1000);
-            
+            var request = InitRequest("generateStrings");
             request.Params.Add("apiKey", _apiKey);
             request.Params.Add("n", count);
             request.Params.Add("length", length);
@@ -274,23 +252,7 @@ namespace Randy
         public async Task<GetStringsResponse> GetStringsAsync(int count, int length, CharSet set, bool replacement = true,
             CancellationToken cancellationToken = default)
         {
-            string res = "";
-            string tmp;
-
-            foreach (CharSet c in _charset)
-            {
-                tmp = DataConverter.GetStringFromCharSet(set & c);
-
-                if (tmp.Contains(res))
-                {
-                    res = tmp;
-                }
-                else
-                {
-                    res += tmp;
-                }
-            }
-
+            string res = DataConverter.GetStringFromCharSet(set);
             return await GetStringsAsync(count, length, res, replacement, cancellationToken);
         }
 
@@ -315,7 +277,20 @@ namespace Randy
         public GetStringsResponse GetStrings(int count, int length, bool replacement = true)
         {
             return AsyncHelper.RunSync(() => GetStringsAsync(count, length, replacement));
-
         }
+
+        #region Private method
+
+        private Request InitRequest(string method)
+        {
+            Request request = new Request();
+            request.Jsonrpc = _apiVersion;
+            request.Method = method;
+            request.Id = _rnd.Next(1, 1000);
+            return request;
+        }
+
+        #endregion
+        
     }
 }

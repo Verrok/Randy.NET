@@ -33,25 +33,28 @@ namespace Randy
 
         public static string GetStringFromCharSet(CharSet c)
         {
-            switch (c)
+
+            string result = String.Empty;
+
+            if (c.HasFlag(CharSet.Lower))
             {
-                case CharSet.Lower:
-                    return Lower;
-                case CharSet.Upper:
-                    return Upper;
-                case CharSet.Digits:
-                    return Digits;
-                case CharSet.Symbols:
-                    return Symb;
-                case CharSet.Alphabet:
-                    return Lower + Upper;
-                case CharSet.AlphaNumeric:
-                    return Lower + Upper + Digits;
-                case CharSet.All:
-                    return Lower + Upper + Digits + Symb;
-                default:
-                    return "";
+                result += Lower;
             }
+            if (c.HasFlag(CharSet.Upper))
+            {
+                result += Upper;
+            }
+            if (c.HasFlag(CharSet.Digits))
+            {
+                result += Digits;
+            }
+            if (c.HasFlag(CharSet.Symbols))
+            {
+                result += Symb;
+            }
+
+            return result;
+
         }
 
     }
