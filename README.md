@@ -49,3 +49,4 @@ Part of [random.org](random.org) **[Contributed libraries](https://api.random.or
 - [ ] `GetBlobs` method
 - [ ] `GetUsage` method
 - [ ] Some integrations tests
+- [ ] Signed API
