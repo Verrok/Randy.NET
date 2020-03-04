@@ -10,13 +10,14 @@ namespace Randy
         public static string Lower = "abcdefghijklmnopqrstuvwxyz";
         public static string Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         public static string Digits = "0123456789";
-        public static string Symb = "!@#$%^&*()¹;:?*{}[]'/|";
+        public static string Symb = "!@#$%^&*()â„–;:?*{}[]'/|";
 
-        public static T GetRandomData<T>(string jsonResult)
+        public static T GetRandomData<T>(string jsonResult, JsonSerializerOptions options = null)
         {
             using JsonDocument document = JsonDocument.Parse(jsonResult);
+            Console.WriteLine(jsonResult);
             var prop = document.RootElement.GetProperty("result").GetProperty("random").GetProperty("data");
-            T data = JsonSerializer.Deserialize<T>(prop.ToString());
+            T data = JsonSerializer.Deserialize<T>(prop.ToString(), options);
             return data;
         }
 

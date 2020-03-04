@@ -54,7 +54,7 @@ namespace Randy
         /// <param name="base">Base to display numbers. Length must equals to count param. Allowed 2, 8, 10 and 16. Default = 10.</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Task with response</returns>
-        Task<GetIntegerSequencesResponse> GetIntegerSequencesAsync(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement, IEnumerable<int> @base, CancellationToken cancellationToken = default);
+        Task<GetIntegerSequencesResponse> GetIntegerSequencesAsync(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement, int @base, CancellationToken cancellationToken = default);
         
         /// <summary>
         /// Generates sequences of random integers asynchronously
@@ -80,7 +80,7 @@ namespace Randy
         /// <param name="base">Base to display numbers. Length must equals to 1 or to count. Allowed 2, 8, 10 and 16. Default = 10.</param>
         /// <returns>Response/></returns>
         
-        GetIntegerSequencesResponse GetIntegerSequences(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement, IEnumerable<int> @base);
+        GetIntegerSequencesResponse GetIntegerSequences(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement, int @base);
 
         /// <summary>
         /// Generates sequences of random integers 

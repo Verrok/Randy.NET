@@ -110,7 +110,11 @@ namespace Randy
 
             GetIntegerResponse response = _mapper.Map<GetIntegerResponse>(responseBase);
 
-            response.Data = DataConverter.GetRandomData<IEnumerable<int>>(responseBase.JsonResponse);
+            var serializeOptions = new JsonSerializerOptions();
+            serializeOptions.Converters.Add(new IntConverter(@base));
+            
+            
+            response.Data = DataConverter.GetRandomData<IEnumerable<int>>(responseBase.JsonResponse, serializeOptions);
             response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
 
             return response;
@@ -122,7 +126,7 @@ namespace Randy
         }
 
         public async Task<GetIntegerSequencesResponse> GetIntegerSequencesAsync(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement,
-            IEnumerable<int> @base, CancellationToken cancellationToken = default)
+            int @base, CancellationToken cancellationToken = default)
         {
             Request request = new Request();
             request.Jsonrpc = _apiVersion;
@@ -141,7 +145,9 @@ namespace Randy
 
             GetIntegerSequencesResponse response = _mapper.Map<GetIntegerSequencesResponse>(responseBase);
 
-            response.Data = DataConverter.GetRandomData<IEnumerable<IEnumerable<int>>>(responseBase.JsonResponse);
+            var serializeOptions = new JsonSerializerOptions();
+            serializeOptions.Converters.Add(new IntConverter(@base));
+            response.Data = DataConverter.GetRandomData<IEnumerable<IEnumerable<int>>>(responseBase.JsonResponse, serializeOptions);
             response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
 
             return response;
@@ -164,17 +170,18 @@ namespace Randy
             request.Params.Add("base", @base);
 
             ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken);
-
             GetIntegerSequencesResponse response = _mapper.Map<GetIntegerSequencesResponse>(responseBase);
-
-            response.Data = DataConverter.GetRandomData<IEnumerable<IEnumerable<int>>>(responseBase.JsonResponse);
+            var serializeOptions = new JsonSerializerOptions();
+            serializeOptions.Converters.Add(new IntConverter(@base));
+            
+            response.Data = DataConverter.GetRandomData<IEnumerable<IEnumerable<int>>>(responseBase.JsonResponse, serializeOptions);
             response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
 
             return response;
         }
 
         public GetIntegerSequencesResponse GetIntegerSequences(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max,
-            IEnumerable<bool> replacement, IEnumerable<int> @base)
+            IEnumerable<bool> replacement, int @base)
         {
             return AsyncHelper.RunSync(() => GetIntegerSequencesAsync(count, length, min, max, replacement, @base));
         }
