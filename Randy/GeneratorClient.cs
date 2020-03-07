@@ -100,7 +100,7 @@ namespace Randy
             request.Params.Add("replacement", replacement);
             request.Params.Add("base", @base);
 
-            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken);
+            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken).ConfigureAwait(false);
 
             GetIntegerResponse response = _mapper.Map<GetIntegerResponse>(responseBase);
 
@@ -132,7 +132,7 @@ namespace Randy
             request.Params.Add("replacement", replacement);
             request.Params.Add("base", @base);
             
-            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken);
+            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken).ConfigureAwait(false);
 
             GetIntegerSequencesResponse response = _mapper.Map<GetIntegerSequencesResponse>(responseBase);
 
@@ -157,7 +157,7 @@ namespace Randy
             request.Params.Add("replacement", replacement);
             request.Params.Add("base", @base);
 
-            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken);
+            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken).ConfigureAwait(false);
             GetIntegerSequencesResponse response = _mapper.Map<GetIntegerSequencesResponse>(responseBase);
             var serializeOptions = new JsonSerializerOptions();
             serializeOptions.Converters.Add(new IntConverter(@base));
@@ -190,7 +190,7 @@ namespace Randy
             request.Params.Add("decimalPlaces", decimalPlaces);
             request.Params.Add("replacement", replacement);
 
-            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken);
+            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken).ConfigureAwait(false);
 
             GetDecimalFractionsResponse response = _mapper.Map<GetDecimalFractionsResponse>(responseBase);
 
@@ -215,7 +215,7 @@ namespace Randy
             request.Params.Add("significantDigits", digits);
             
 
-            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken);
+            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken).ConfigureAwait(false);
 
             GetGaussiansResponse response = _mapper.Map<GetGaussiansResponse>(responseBase);
 
@@ -240,7 +240,7 @@ namespace Randy
             request.Params.Add("replacement", replacement);
 
             
-            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken);
+            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken).ConfigureAwait(false);
 
             GetStringsResponse response = _mapper.Map<GetStringsResponse>(responseBase);
 

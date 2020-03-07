@@ -1,3 +1,6 @@
+## Version
+
+This build is for .netcore3.0
 
 ## Installation
 
