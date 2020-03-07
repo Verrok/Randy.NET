@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Authentication;
+using Newtonsoft.Json;
 
 namespace Randy.Requests.Abstractions
 {
@@ -31,7 +32,7 @@ namespace Randy.Requests.Abstractions
         /// </summary>
         /// <param name="options">Serializer option, needs to convert names to camelCase</param>
         /// <returns>JSON string representation of class</returns>
-        HttpContent ToHttpContent();
+        HttpContent ToHttpContent(JsonSerializerSettings settings);
 
     }
 }

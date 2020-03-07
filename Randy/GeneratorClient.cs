@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Randy.Enums;
 using Randy.Requests;
 using Randy.Requests.Abstractions;
@@ -18,6 +19,7 @@ namespace Randy
         private readonly string _apiKey;
         private readonly string _requestUrl = "https://api.random.org/json-rpc/2/invoke";
         private readonly string _apiVersion;
+        private readonly JsonSerializerSettings _settings;
         private readonly Random _rnd;
         private readonly IMapper _mapper;
         public GeneratorClient(string apiKey, ApiVersion ver = ApiVersion.V2, HttpClient client = null)
@@ -25,6 +27,21 @@ namespace Randy
             _rnd = new Random();
             _apiKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
             _client = client ?? new HttpClient();
+            
+            DefaultContractResolver contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy
+                {
+                    OverrideSpecifiedNames = false
+                }
+            };
+            
+            _settings = new JsonSerializerSettings()
+            {
+                ContractResolver = contractResolver
+            };
+            
+            
             switch (ver)
             {
                 case ApiVersion.V2:
@@ -49,10 +66,11 @@ namespace Randy
         {
 
             string jsonString;
+
             
             var httpRequest = new HttpRequestMessage(HttpMethod.Post, _requestUrl)
             {
-                Content = request.ToHttpContent(),
+                Content = request.ToHttpContent(_settings),
             };
 
             HttpResponseMessage response = null;
@@ -76,10 +94,9 @@ namespace Randy
             {
                 throw new Exception("Response is null");
             }
-
-            ResponseBase resp = JsonConvert.DeserializeObject<ResponseBase>(jsonString);
-            resp.JsonResponse = jsonString;
             
+            ResponseBase resp = JsonConvert.DeserializeObject<ResponseBase>(jsonString, _settings);
+            resp.JsonResponse = jsonString;
             return resp;
         }
 
@@ -96,10 +113,9 @@ namespace Randy
             request.Params.Add("base", @base);
 
             ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken);
-
             GetIntegerResponse response = _mapper.Map<GetIntegerResponse>(responseBase);
-
-            response.Data = DataConverter.GetRandomData<IEnumerable<int>>(responseBase.JsonResponse);
+            IntConverter converter = new IntConverter(@base);
+            response.Data = DataConverter.GetRandomData<IEnumerable<int>>(responseBase.JsonResponse, converter);
             response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
 
             return response;
@@ -203,9 +219,7 @@ namespace Randy
             
 
             ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken);
-
             GetGaussiansResponse response = _mapper.Map<GetGaussiansResponse>(responseBase);
-
             response.Data = DataConverter.GetRandomData<IEnumerable<decimal> >(responseBase.JsonResponse);
             response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
             return response;
@@ -215,6 +229,8 @@ namespace Randy
         {
             return AsyncHelper.RunSync(() => GetGaussiansAsync(count, mean, deviation, digits));
         }
+        
+        
 
         public async Task<GetStringsResponse> GetStringsAsync(int count, int length, string characters, bool replacement = true,
             CancellationToken cancellationToken = default)
@@ -225,6 +241,8 @@ namespace Randy
             request.Params.Add("length", length);
             request.Params.Add("characters", characters);
             request.Params.Add("replacement", replacement);
+
+
 
             
             ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken);

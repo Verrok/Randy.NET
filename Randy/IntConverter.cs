@@ -21,8 +21,13 @@ namespace Randy
 
         public override int ReadJson(JsonReader reader, Type objectType, int existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            string s = reader.ReadAsString();
-            return Convert.ToInt32(s, _base);
+            if (reader.Value != null)
+            {
+                string s = reader.Value.ToString();
+                return Convert.ToInt32(s, _base);
+            }
+
+            return default;
         }
     }
 }
