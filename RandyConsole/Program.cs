@@ -13,10 +13,15 @@ namespace RandyConsole
     
     class Program
     {
+        class Test
+        {
+            
+        }
+        
+        
         static void Main(string[] args)
         {
             GeneratorClient client = new GeneratorClient("9816823a-ba13-4a23-a601-bbbe6997a0cb");
-            
             var resp = client.GetGaussians(10, 10, 50, 13);
             
             Console.WriteLine(resp.Id);
