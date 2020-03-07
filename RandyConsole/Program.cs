@@ -13,16 +13,10 @@ namespace RandyConsole
     
     class Program
     {
-        class Test
-        {
-            
-        }
-        
-        
         static void Main(string[] args)
         {
             GeneratorClient client = new GeneratorClient("9816823a-ba13-4a23-a601-bbbe6997a0cb");
-            var resp = client.GetGaussians(10, 10, 50, 13);
+            var resp = client.GetIntegerSequences(10, 10, 10, 100);
             
             Console.WriteLine(resp.Id);
             Console.WriteLine(resp.ResultInfo.AdvisoryDelay);
@@ -33,7 +27,7 @@ namespace RandyConsole
             Console.WriteLine(resp.CompletionTime);
             foreach (var i in resp.Data)
             {
-                Console.WriteLine(i);
+                Console.WriteLine(string.Join(", ", i));
             }
 
 
