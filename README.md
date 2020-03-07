@@ -34,6 +34,7 @@ Then you can use necessary method to get the result of true randomness. Client s
 ## Dependencies
 
 - [Automapper](https://automapper.org/) >= 9.0.0
+- [Newtonsoft JSON](https://www.newtonsoft.com/json) >= 12.0.3
 
 ## Third party
 
