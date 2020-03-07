@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
+using Newtonsoft.Json;
 using Randy.Requests.Abstractions;
 
 namespace Randy.Requests
@@ -17,9 +17,9 @@ namespace Randy.Requests
         
         public Dictionary<string, object> Params { get; set; } = new Dictionary<string, object>();
         
-        public HttpContent ToHttpContent(JsonSerializerOptions options)
+        public HttpContent ToHttpContent()
         {
-            string json = JsonSerializer.Serialize(this, options);
+            string json = JsonConvert.SerializeObject(this);
             return new StringContent(json, Encoding.UTF8, "application/json");
         }
         

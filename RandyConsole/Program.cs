@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Randy;
-using Randy.Requests;
 using Randy.Enums;
+
 namespace RandyConsole
 {
+
     class Program
     {
         static void Main(string[] args)
         {
             GeneratorClient client = new GeneratorClient("9816823a-ba13-4a23-a601-bbbe6997a0cb");
-
+            
             var resp = client.GetStrings(10, 10, CharSet.All);
             
             Console.WriteLine(resp.Id);
@@ -25,6 +27,9 @@ namespace RandyConsole
             {
                 Console.WriteLine(i);
             }
+
+
+
         }
     }
 }

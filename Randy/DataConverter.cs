@@ -1,7 +1,8 @@
 using Randy.Enums;
 using System;
 using System.Globalization;
-using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Randy
 {
@@ -12,23 +13,32 @@ namespace Randy
         public static string Digits = "0123456789";
         public static string Symb = "!@#$%^&*()№;:?*{}[]'/|";
 
-        public static T GetRandomData<T>(string jsonResult, JsonSerializerOptions options = null)
+        public static T GetRandomData<T>(string jsonResult)
         {
-            using JsonDocument document = JsonDocument.Parse(jsonResult);
-            Console.WriteLine(jsonResult);
-            var prop = document.RootElement.GetProperty("result").GetProperty("random").GetProperty("data");
-            T data = JsonSerializer.Deserialize<T>(prop.ToString(), options);
-            return data;
+            
+            JObject jobj = JObject.Parse(jsonResult);
+            var prop = jobj["result"]["random"]["data"];
+            if (prop != null)
+            {
+                T data = JsonConvert.DeserializeObject<T>(prop.ToString());
+                return data;
+            }
+
+            return default;
         }
 
         public static DateTime GetCompletionTime(string jsonResult)
         {
-            using JsonDocument document = JsonDocument.Parse(jsonResult);
-            var prop = document.RootElement.GetProperty("result").GetProperty("random").GetProperty("completionTime");
-
-            DateTime result = DateTime.Parse(prop.ToString(), null, DateTimeStyles.RoundtripKind);
+            JObject jobj = JObject.Parse(jsonResult);
+            var prop = jobj["result"]["random"]["data"];
+            if (prop != null)
+            {
+                DateTime result = DateTime.Parse(prop.ToString(), null, DateTimeStyles.RoundtripKind);
             
-            return result;
+                return result;
+            }
+
+            return default;
         }
 
         public static string GetStringFromCharSet(CharSet c)

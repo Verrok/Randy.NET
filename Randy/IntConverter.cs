@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Randy
 {
@@ -14,16 +13,16 @@ namespace Randy
         {
             _base = @base;
         }
-        
-        
-        public override int Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+
+        public override void WriteJson(JsonWriter writer, int value, JsonSerializer serializer)
         {
-            return Convert.ToInt32(reader.GetString(), _base);
+            writer.WriteValue(value);
         }
 
-        public override void Write(Utf8JsonWriter writer, int value, JsonSerializerOptions options)
+        public override int ReadJson(JsonReader reader, Type objectType, int existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            writer.WriteNumberValue(value);
+            string s = reader.ReadAsString();
+            return Convert.ToInt32(s, _base);
         }
     }
 }
