@@ -1,5 +1,6 @@
 using Randy.Enums;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -13,24 +14,27 @@ namespace Randy
         public static string Digits = "0123456789";
         public static string Symb = "!@#$%^&*()№;:?*{}[]'/|";
 
-        public static T GetRandomData<T>(string jsonResult)
+        public static T GetRandomData<T>(string jsonResult, IntConverter converter = null)
         {
-            
-            JObject jobj = JObject.Parse(jsonResult);
-            var prop = jobj["result"]["random"]["data"];
-            if (prop != null)
+            JObject obj = JObject.Parse(jsonResult);
+            var prop = obj["result"]["random"]["data"];
+            if (converter != null)
+            {
+                T data = JsonConvert.DeserializeObject<T>(prop.ToString(), converter);
+                return data;
+            }
+            else
             {
                 T data = JsonConvert.DeserializeObject<T>(prop.ToString());
                 return data;
             }
 
-            return default;
         }
 
         public static DateTime GetCompletionTime(string jsonResult)
         {
             JObject jobj = JObject.Parse(jsonResult);
-            var prop = jobj["result"]["random"]["data"];
+            var prop = jobj["result"]["random"]["completionTime"];
             if (prop != null)
             {
                 DateTime result = DateTime.Parse(prop.ToString(), null, DateTimeStyles.RoundtripKind);
