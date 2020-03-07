@@ -1,3 +1,7 @@
+## Version
+
+This build is for .netstandart2.1
+
 
 ## Installation
 
