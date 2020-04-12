@@ -68,7 +68,7 @@ namespace Randy
             {
                 response = await _client.SendAsync(httpRequest, cancellationToken);
             }
-            catch (TaskCanceledException e)
+            catch (TaskCanceledException)
             {
                 if (cancellationToken.IsCancellationRequested)
                     throw;
@@ -269,14 +269,21 @@ namespace Randy
             return AsyncHelper.RunSync(() => GetStringsAsync(count, length, replacement));
         }
 
-        public Task<GetGuidsResponse> GetGuidsAsync(int count, CancellationToken cancellationToken = default)
+        public async Task<GetGuidsResponse> GetGuidsAsync(int count, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var request = InitRequest("generateUUIDs");
+            request.Params.Add("n", count);
+            
+            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            GetGuidsResponse response = _mapper.Map<GetGuidsResponse>(responseBase);
+            response.Data = DataConverter.GetRandomData<IEnumerable<Guid> >(responseBase.JsonResponse);
+            response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
+            return response;
         }
 
         public GetGuidsResponse GetGuids(int count)
         {
-            throw new NotImplementedException();
+            return AsyncHelper.RunSync(() => GetGuidsAsync(count));
         }
 
         #region Private method
