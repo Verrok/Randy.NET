@@ -46,6 +46,9 @@ If you find a bug, want to suggest an improvement or have a question, feel free 
 
 Part of [random.org](random.org) **[Contributed libraries](https://api.random.org/json-rpc/2/source-code)**
 
+Supported with license by [Jetbrains opensource](jetbrains.com/opensource)
+
+![Jetbrains](https://cdn.jsdelivr.net/npm/@jetbrains/logos@1.1.8/jetbrains/jetbrains.svg)
 ## To do
 
 - [ ] `GetUUIDs` method
