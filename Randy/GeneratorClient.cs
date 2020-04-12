@@ -43,6 +43,7 @@ namespace Randy
                 cfg.CreateMap<ResponseBase, GetDecimalFractionsResponse>();
                 cfg.CreateMap<ResponseBase, GetIntegerSequencesResponse>();
                 cfg.CreateMap<ResponseBase, GetStringsResponse>();
+                cfg.CreateMap<ResponseBase, GetGuidsResponse>();
             });
 
             _mapper = config.CreateMapper();
@@ -92,8 +93,6 @@ namespace Randy
             CancellationToken cancellationToken = default)
         {
             var request = InitRequest("generateIntegers");
-            
-            request.Params.Add("apiKey", _apiKey);
             request.Params.Add("n", count);
             request.Params.Add("min", min);
             request.Params.Add("max", max);
@@ -123,8 +122,6 @@ namespace Randy
             int @base, CancellationToken cancellationToken = default)
         {
             var request = InitRequest("generateIntegerSequences");
-            
-            request.Params.Add("apiKey", _apiKey);
             request.Params.Add("n", count);
             request.Params.Add("length", length);
             request.Params.Add("min", min);
@@ -148,8 +145,6 @@ namespace Randy
             CancellationToken cancellationToken = default)
         {
             var request = InitRequest("generateIntegerSequences");
-            
-            request.Params.Add("apiKey", _apiKey);
             request.Params.Add("n", count);
             request.Params.Add("length", length);
             request.Params.Add("min", min);
@@ -184,8 +179,6 @@ namespace Randy
             CancellationToken cancellationToken = default)
         {
             var request = InitRequest("generateDecimalFractions");
-            
-            request.Params.Add("apiKey", _apiKey);
             request.Params.Add("n", count);
             request.Params.Add("decimalPlaces", decimalPlaces);
             request.Params.Add("replacement", replacement);
@@ -207,8 +200,6 @@ namespace Randy
         public async Task<GetGaussiansResponse> GetGaussiansAsync(int count, int mean, int deviation, int digits, CancellationToken cancellationToken = default)
         {
             var request = InitRequest("generateGaussians");
-            
-            request.Params.Add("apiKey", _apiKey);
             request.Params.Add("n", count);
             request.Params.Add("mean", mean);
             request.Params.Add("standardDeviation", deviation);
@@ -233,7 +224,6 @@ namespace Randy
             CancellationToken cancellationToken = default)
         {
             var request = InitRequest("generateStrings");
-            request.Params.Add("apiKey", _apiKey);
             request.Params.Add("n", count);
             request.Params.Add("length", length);
             request.Params.Add("characters", characters);
@@ -279,6 +269,16 @@ namespace Randy
             return AsyncHelper.RunSync(() => GetStringsAsync(count, length, replacement));
         }
 
+        public Task<GetGuidsResponse> GetGuidsAsync(int count, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public GetGuidsResponse GetGuids(int count)
+        {
+            throw new NotImplementedException();
+        }
+
         #region Private method
 
         private Request InitRequest(string method)
@@ -287,6 +287,7 @@ namespace Randy
             request.Jsonrpc = _apiVersion;
             request.Method = method;
             request.Id = _rnd.Next(1, 1000);
+            request.Params.Add("apiKey", _apiKey);
             return request;
         }
 

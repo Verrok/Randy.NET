@@ -195,6 +195,15 @@ namespace Randy
         /// <returns>Response</returns>
         GetStringsResponse GetStrings(int count, int length, bool replacement = true);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="count"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<GetGuidsResponse> GetGuidsAsync(int count, CancellationToken cancellationToken = default);
+
+        GetGuidsResponse GetGuids(int count);
 
     }
 }
