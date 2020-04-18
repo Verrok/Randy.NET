@@ -196,14 +196,36 @@ namespace Randy
         GetStringsResponse GetStrings(int count, int length, bool replacement = true);
 
         /// <summary>
-        /// 
+        /// Generates version 4 true random Universally Unique IDentifiers (UUIDs) in accordance with section 4.4 of RFC 4122 asyncly
         /// </summary>
-        /// <param name="count"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="count">Count of generated GUIDs</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Response</returns>
         Task<GetGuidsResponse> GetGuidsAsync(int count, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Generates version 4 true random Universally Unique IDentifiers (UUIDs) in accordance with section 4.4 of RFC 4122 
+        /// </summary>
+        /// <param name="count">Count of generated GUIDs</param>
+        /// <returns>Response</returns>
         GetGuidsResponse GetGuids(int count);
+        
+        /// <summary>
+        /// Generates Binary Large Objects (BLOBs) containing true random data. asyncly
+        /// </summary>
+        /// <param name="count">Count of generated blobs</param>
+        /// <param name="size">Size of each blob. Must be within the [1,1048576] range and must be divisible by 8</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Response</returns>
+        Task<GetBlobsResponse> GetBlobsAsync(int count, int size, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Generates Binary Large Objects (BLOBs) containing true random data.
+        /// </summary>
+        /// <param name="count">Count of generated blobs</param>
+        /// <param name="size">Size of each blob. Must be within the [1,1048576] range and must be divisible by 8</param>
+        /// <returns>Response</returns>
+        GetBlobsResponse GetBlobs(int count, int size);
 
     }
 }

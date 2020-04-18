@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
@@ -44,6 +45,7 @@ namespace Randy
                 cfg.CreateMap<ResponseBase, GetIntegerSequencesResponse>();
                 cfg.CreateMap<ResponseBase, GetStringsResponse>();
                 cfg.CreateMap<ResponseBase, GetGuidsResponse>();
+                cfg.CreateMap<ResponseBase, GetBlobsResponse>();
             });
 
             _mapper = config.CreateMapper();
@@ -284,6 +286,26 @@ namespace Randy
         public GetGuidsResponse GetGuids(int count)
         {
             return AsyncHelper.RunSync(() => GetGuidsAsync(count));
+        }
+
+        public async Task<GetBlobsResponse> GetBlobsAsync(int count, int size, CancellationToken cancellationToken = default)
+        {
+            var request = InitRequest("generateBlobs");
+            request.Params.Add("n", count);
+            request.Params.Add("size", size);
+            request.Params.Add("format", "hex");
+            
+            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            GetBlobsResponse response = _mapper.Map<GetBlobsResponse>(responseBase);
+            response.Data = DataConverter.GetRandomData<IEnumerable<string> >(responseBase.JsonResponse);
+            response.DataBinary = response.Data.Select(DataConverter.StringToByteArrayFastest);
+            response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
+            return response;
+        }
+
+        public GetBlobsResponse GetBlobs(int count, int size)
+        {
+            return AsyncHelper.RunSync(() => GetBlobsAsync(count, size));
         }
 
         #region Private method

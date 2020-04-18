@@ -11,7 +11,7 @@ namespace RandyConsole
         {
             GeneratorClient client = new GeneratorClient("9816823a-ba13-4a23-a601-bbbe6997a0cb");
 
-            var resp = client.GetGuids(10);
+            var resp = client.GetBlobs(10, 128);
             
             Console.WriteLine(resp.Id);
             Console.WriteLine(resp.ResultInfo.AdvisoryDelay);
@@ -24,6 +24,11 @@ namespace RandyConsole
             foreach (var i in resp.Data)
             {
                 Console.WriteLine(i);
+            }
+            
+            foreach (var bytese in resp.DataBinary)
+            {
+                Console.WriteLine(string.Join("", bytese));
             }
         }
     }
