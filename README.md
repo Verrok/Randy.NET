@@ -12,9 +12,9 @@ PM> Install-Package Randy.NET
 
 ## Usage
 
-Firstly, you need to initialize `GeneratorClient` class with your **GeneratorService** api key
+Firstly, you need to initialize `GeneratorClient` class with your **GeneratorService** API key
 
-```c#
+```csharp
 GeneratorClient client = new GeneratorClient("ffffffff-ffff-ffff-ffff-ffffffffffff");
 ```
 Then you can use necessary method to get the result of true randomness. Client supports sync/async versions of methods
@@ -26,6 +26,9 @@ Then you can use necessary method to get the result of true randomness. Client s
 - `GetDecimalFractions`
 - `GetGaussians`
 - `GetStrings`
+- `GetBlobs`
+- `GetGuids`
+- `GetUsage`
 
 ***
 - You can check methods' arguments ranges in `summary` or in [random.org documentation](https://api.random.org/json-rpc/2/basic) 
@@ -51,8 +54,10 @@ Supported with license by [Jetbrains opensource](jetbrains.com/opensource)
 ![Jetbrains](https://cdn.jsdelivr.net/npm/@jetbrains/logos@1.1.8/jetbrains/jetbrains.svg)
 ## To do
 
-- [ ] `GetUUIDs` method
-- [ ] `GetBlobs` method
-- [ ] `GetUsage` method
+- [x] ~~`GetUUIDs` method~~
+- [x] ~~`GetBlobs` method~~
+- [x] ~~`GetUsage` method~~
+- [ ] Arguments checks 
+- [ ] Let users pass their ID to methods
 - [ ] Some integrations tests
 - [ ] Signed API

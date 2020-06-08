@@ -1,4 +1,6 @@
 using System;
+using System.Text.Json.Serialization;
+using Randy.Enums;
 
 namespace Randy.Responses
 {
@@ -24,6 +26,24 @@ namespace Randy.Responses
         /// An integer containing the recommended number of milliseconds that the client should delay before issuing another request.
         /// </summary>
         public int AdvisoryDelay { get; set; }
+        
+        
+        [JsonPropertyName("status")]
+        public string StringStatus { get; set; }
+        
+        [JsonPropertyName("creationTime")]
+        public string StringCreationTime { get; set; }
+        
+        [JsonIgnore]
+        public Status Status { get; set; }
+        
+        [JsonIgnore]
+        public DateTime CreationTime { get; set; }
+        
+        public int TotalBits { get; set; }
+        
+        public int TotalRequests { get; set; }
+        
         
     }
 }

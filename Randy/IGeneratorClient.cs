@@ -227,5 +227,18 @@ namespace Randy
         /// <returns>Response</returns>
         GetBlobsResponse GetBlobs(int count, int size);
 
+        /// <summary>
+        /// This method returns information related to the the usage of a given API key asyncly.  
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Response</returns>
+        Task<GetUsageResponse> GetUsageAsync(CancellationToken cancellationToken = default);
+        
+        /// <summary>
+        /// This method returns information related to the the usage of a given API key. 
+        /// </summary>
+        /// <returns>Response</returns>
+        GetUsageResponse GetUsage();
+
     }
 }

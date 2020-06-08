@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
@@ -22,6 +23,7 @@ namespace Randy
         private readonly JsonSerializerOptions _options;
         private readonly Random _rnd;
         private readonly IMapper _mapper;
+
         public GeneratorClient(string apiKey, ApiVersion ver = ApiVersion.V2, HttpClient client = null)
         {
             _rnd = new Random();
@@ -37,8 +39,9 @@ namespace Randy
                     _apiVersion = "2.0";
                     break;
             }
-            
-            var config = new MapperConfiguration(cfg => {
+
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<ResponseBase, GetIntegerResponse>();
                 cfg.CreateMap<ResponseBase, GetGaussiansResponse>();
                 cfg.CreateMap<ResponseBase, GetDecimalFractionsResponse>();
@@ -46,26 +49,26 @@ namespace Randy
                 cfg.CreateMap<ResponseBase, GetStringsResponse>();
                 cfg.CreateMap<ResponseBase, GetGuidsResponse>();
                 cfg.CreateMap<ResponseBase, GetBlobsResponse>();
+                cfg.CreateMap<ResponseBase, GetUsageResponse>();
             });
 
             _mapper = config.CreateMapper();
-            
         }
 
 
-        public async Task<ResponseBase> MakegRpcRequestAsync(IRequest request, CancellationToken cancellationToken = default)
+        public async Task<ResponseBase> MakegRpcRequestAsync(IRequest request,
+            CancellationToken cancellationToken = default)
         {
-
             string jsonString;
-            
+
             var httpRequest = new HttpRequestMessage(HttpMethod.Post, _requestUrl)
             {
                 Content = request.ToHttpContent(_options),
             };
 
             HttpResponseMessage response = null;
-            
-            
+
+
             try
             {
                 response = await _client.SendAsync(httpRequest, cancellationToken);
@@ -87,11 +90,12 @@ namespace Randy
 
             ResponseBase resp = JsonSerializer.Deserialize<ResponseBase>(jsonString, _options);
             resp.JsonResponse = jsonString;
-            
+
             return resp;
         }
 
-        public async Task<GetIntegerResponse> GetIntegersAsync(int count, int min, int max, bool replacement = true, int @base = 10,
+        public async Task<GetIntegerResponse> GetIntegersAsync(int count, int min, int max, bool replacement = true,
+            int @base = 10,
             CancellationToken cancellationToken = default)
         {
             var request = InitRequest("generateIntegers");
@@ -107,20 +111,19 @@ namespace Randy
 
             var serializeOptions = new JsonSerializerOptions();
             serializeOptions.Converters.Add(new IntConverter(@base));
-            
-            
+
+
             response.Data = DataConverter.GetRandomData<IEnumerable<int>>(responseBase.JsonResponse, serializeOptions);
             response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
 
             return response;
         }
 
-        public GetIntegerResponse GetIntegers(int count, int min, int max, bool replacement = true, int @base = 10)
-        {
-            return AsyncHelper.RunSync(() => GetIntegersAsync(count, min, max, replacement, @base));
-        }
+        public GetIntegerResponse GetIntegers(int count, int min, int max, bool replacement = true, int @base = 10) =>
+            AsyncHelper.RunSync(() => GetIntegersAsync(count, min, max, replacement, @base));
 
-        public async Task<GetIntegerSequencesResponse> GetIntegerSequencesAsync(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement,
+        public async Task<GetIntegerSequencesResponse> GetIntegerSequencesAsync(int count, IEnumerable<int> length,
+            IEnumerable<int> min, IEnumerable<int> max, IEnumerable<bool> replacement,
             int @base, CancellationToken cancellationToken = default)
         {
             var request = InitRequest("generateIntegerSequences");
@@ -130,20 +133,22 @@ namespace Randy
             request.Params.Add("max", max);
             request.Params.Add("replacement", replacement);
             request.Params.Add("base", @base);
-            
+
             ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken).ConfigureAwait(false);
 
             GetIntegerSequencesResponse response = _mapper.Map<GetIntegerSequencesResponse>(responseBase);
 
             var serializeOptions = new JsonSerializerOptions();
             serializeOptions.Converters.Add(new IntConverter(@base));
-            response.Data = DataConverter.GetRandomData<IEnumerable<IEnumerable<int>>>(responseBase.JsonResponse, serializeOptions);
+            response.Data =
+                DataConverter.GetRandomData<IEnumerable<IEnumerable<int>>>(responseBase.JsonResponse, serializeOptions);
             response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
 
             return response;
         }
 
-        public async Task<GetIntegerSequencesResponse> GetIntegerSequencesAsync(int count, int length, int min, int max, bool replacement = true, int @base = 10,
+        public async Task<GetIntegerSequencesResponse> GetIntegerSequencesAsync(int count, int length, int min, int max,
+            bool replacement = true, int @base = 10,
             CancellationToken cancellationToken = default)
         {
             var request = InitRequest("generateIntegerSequences");
@@ -158,26 +163,26 @@ namespace Randy
             GetIntegerSequencesResponse response = _mapper.Map<GetIntegerSequencesResponse>(responseBase);
             var serializeOptions = new JsonSerializerOptions();
             serializeOptions.Converters.Add(new IntConverter(@base));
-            
-            response.Data = DataConverter.GetRandomData<IEnumerable<IEnumerable<int>>>(responseBase.JsonResponse, serializeOptions);
+
+            response.Data =
+                DataConverter.GetRandomData<IEnumerable<IEnumerable<int>>>(responseBase.JsonResponse, serializeOptions);
             response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
 
             return response;
         }
 
-        public GetIntegerSequencesResponse GetIntegerSequences(int count, IEnumerable<int> length, IEnumerable<int> min, IEnumerable<int> max,
+        public GetIntegerSequencesResponse GetIntegerSequences(int count, IEnumerable<int> length, IEnumerable<int> min,
+            IEnumerable<int> max,
             IEnumerable<bool> replacement, int @base)
-        {
-            return AsyncHelper.RunSync(() => GetIntegerSequencesAsync(count, length, min, max, replacement, @base));
-        }
-        
-        public GetIntegerSequencesResponse GetIntegerSequences(int count, int length, int min, int max, bool replacement = true, int @base = 10)
-        {
-            return AsyncHelper.RunSync(() => GetIntegerSequencesAsync(count, length, min, max, replacement, @base));
-        }
-        
+            => AsyncHelper.RunSync(() => GetIntegerSequencesAsync(count, length, min, max, replacement, @base));
 
-        public async Task<GetDecimalFractionsResponse> GetDecimalFractionsAsync(int count, int decimalPlaces, bool replacement = true,
+        public GetIntegerSequencesResponse GetIntegerSequences(int count, int length, int min, int max,
+            bool replacement = true, int @base = 10)
+            => AsyncHelper.RunSync(() => GetIntegerSequencesAsync(count, length, min, max, replacement, @base));
+
+
+        public async Task<GetDecimalFractionsResponse> GetDecimalFractionsAsync(int count, int decimalPlaces,
+            bool replacement = true,
             CancellationToken cancellationToken = default)
         {
             var request = InitRequest("generateDecimalFractions");
@@ -189,40 +194,38 @@ namespace Randy
 
             GetDecimalFractionsResponse response = _mapper.Map<GetDecimalFractionsResponse>(responseBase);
 
-            response.Data = DataConverter.GetRandomData<IEnumerable<decimal> >(responseBase.JsonResponse);
+            response.Data = DataConverter.GetRandomData<IEnumerable<decimal>>(responseBase.JsonResponse);
             response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
             return response;
         }
 
-        public GetDecimalFractionsResponse GetDecimalFractions(int count, int decimalPlaces, bool replacement = true)
-        {
-            return AsyncHelper.RunSync(() => GetDecimalFractionsAsync(count, decimalPlaces, replacement));
-        }
+        public GetDecimalFractionsResponse GetDecimalFractions(int count, int decimalPlaces, bool replacement = true) =>
+            AsyncHelper.RunSync(() => GetDecimalFractionsAsync(count, decimalPlaces, replacement));
 
-        public async Task<GetGaussiansResponse> GetGaussiansAsync(int count, int mean, int deviation, int digits, CancellationToken cancellationToken = default)
+        public async Task<GetGaussiansResponse> GetGaussiansAsync(int count, int mean, int deviation, int digits,
+            CancellationToken cancellationToken = default)
         {
             var request = InitRequest("generateGaussians");
             request.Params.Add("n", count);
             request.Params.Add("mean", mean);
             request.Params.Add("standardDeviation", deviation);
             request.Params.Add("significantDigits", digits);
-            
+
 
             ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken).ConfigureAwait(false);
 
             GetGaussiansResponse response = _mapper.Map<GetGaussiansResponse>(responseBase);
 
-            response.Data = DataConverter.GetRandomData<IEnumerable<decimal> >(responseBase.JsonResponse);
+            response.Data = DataConverter.GetRandomData<IEnumerable<decimal>>(responseBase.JsonResponse);
             response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
             return response;
         }
 
-        public GetGaussiansResponse GetGaussians(int count, int mean, int deviation, int digits)
-        {
-            return AsyncHelper.RunSync(() => GetGaussiansAsync(count, mean, deviation, digits));
-        }
+        public GetGaussiansResponse GetGaussians(int count, int mean, int deviation, int digits) =>
+            AsyncHelper.RunSync(() => GetGaussiansAsync(count, mean, deviation, digits));
 
-        public async Task<GetStringsResponse> GetStringsAsync(int count, int length, string characters, bool replacement = true,
+        public async Task<GetStringsResponse> GetStringsAsync(int count, int length, string characters,
+            bool replacement = true,
             CancellationToken cancellationToken = default)
         {
             var request = InitRequest("generateStrings");
@@ -231,17 +234,18 @@ namespace Randy
             request.Params.Add("characters", characters);
             request.Params.Add("replacement", replacement);
 
-            
+
             ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken).ConfigureAwait(false);
 
             GetStringsResponse response = _mapper.Map<GetStringsResponse>(responseBase);
 
-            response.Data = DataConverter.GetRandomData<IEnumerable<string> >(responseBase.JsonResponse);
+            response.Data = DataConverter.GetRandomData<IEnumerable<string>>(responseBase.JsonResponse);
             response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
             return response;
         }
 
-        public async Task<GetStringsResponse> GetStringsAsync(int count, int length, CharSet set, bool replacement = true,
+        public async Task<GetStringsResponse> GetStringsAsync(int count, int length, CharSet set,
+            bool replacement = true,
             CancellationToken cancellationToken = default)
         {
             string res = DataConverter.GetStringFromCharSet(set);
@@ -251,62 +255,74 @@ namespace Randy
         public async Task<GetStringsResponse> GetStringsAsync(int count, int length, bool replacement = true,
             CancellationToken cancellationToken = default)
         {
-            return await GetStringsAsync(count, length, DataConverter.GetStringFromCharSet(CharSet.All), replacement, cancellationToken);
+            return await GetStringsAsync(count, length, DataConverter.GetStringFromCharSet(CharSet.All), replacement,
+                cancellationToken);
         }
 
+        public GetStringsResponse GetStrings(int count, int length, string characters, bool replacement = true) =>
+            AsyncHelper.RunSync(() => GetStringsAsync(count, length, characters, replacement));
 
-        public GetStringsResponse GetStrings(int count, int length, string characters, bool replacement = true)
-        {
-            return AsyncHelper.RunSync(() => GetStringsAsync(count, length, characters, replacement));
-        }
-        
-        public GetStringsResponse GetStrings(int count, int length, CharSet set, bool replacement = true)
-        {
-            return AsyncHelper.RunSync(() => GetStringsAsync(count, length, set, replacement));
+        public GetStringsResponse GetStrings(int count, int length, CharSet set, bool replacement = true) =>
+            AsyncHelper.RunSync(() => GetStringsAsync(count, length, set, replacement));
 
-        }
-        
-        public GetStringsResponse GetStrings(int count, int length, bool replacement = true)
-        {
-            return AsyncHelper.RunSync(() => GetStringsAsync(count, length, replacement));
-        }
+        public GetStringsResponse GetStrings(int count, int length, bool replacement = true) =>
+            AsyncHelper.RunSync(() => GetStringsAsync(count, length, replacement));
 
         public async Task<GetGuidsResponse> GetGuidsAsync(int count, CancellationToken cancellationToken = default)
         {
             var request = InitRequest("generateUUIDs");
             request.Params.Add("n", count);
-            
+
             ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken).ConfigureAwait(false);
             GetGuidsResponse response = _mapper.Map<GetGuidsResponse>(responseBase);
-            response.Data = DataConverter.GetRandomData<IEnumerable<Guid> >(responseBase.JsonResponse);
+            response.Data = DataConverter.GetRandomData<IEnumerable<Guid>>(responseBase.JsonResponse);
             response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
             return response;
         }
 
-        public GetGuidsResponse GetGuids(int count)
-        {
-            return AsyncHelper.RunSync(() => GetGuidsAsync(count));
-        }
+        public GetGuidsResponse GetGuids(int count) => AsyncHelper.RunSync(() => GetGuidsAsync(count));
 
-        public async Task<GetBlobsResponse> GetBlobsAsync(int count, int size, CancellationToken cancellationToken = default)
+        public async Task<GetBlobsResponse> GetBlobsAsync(int count, int size,
+            CancellationToken cancellationToken = default)
         {
             var request = InitRequest("generateBlobs");
             request.Params.Add("n", count);
             request.Params.Add("size", size);
             request.Params.Add("format", "hex");
-            
+
             ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken).ConfigureAwait(false);
             GetBlobsResponse response = _mapper.Map<GetBlobsResponse>(responseBase);
-            response.Data = DataConverter.GetRandomData<IEnumerable<string> >(responseBase.JsonResponse);
+            response.Data = DataConverter.GetRandomData<IEnumerable<string>>(responseBase.JsonResponse);
             response.DataBinary = response.Data.Select(DataConverter.StringToByteArrayFastest);
             response.CompletionTime = DataConverter.GetCompletionTime(responseBase.JsonResponse);
             return response;
         }
 
-        public GetBlobsResponse GetBlobs(int count, int size)
+        public GetBlobsResponse GetBlobs(int count, int size) => AsyncHelper.RunSync(() => GetBlobsAsync(count, size));
+
+        public async Task<GetUsageResponse> GetUsageAsync(CancellationToken cancellationToken = default)
         {
-            return AsyncHelper.RunSync(() => GetBlobsAsync(count, size));
+            var request = InitRequest("getUsage");
+            ResponseBase responseBase = await MakegRpcRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            GetUsageResponse response = _mapper.Map<GetUsageResponse>(responseBase);
+
+            response.ResultInfo.CreationTime = DateTime.Parse(response.ResultInfo.StringCreationTime, null,
+                DateTimeStyles.RoundtripKind);
+
+            if (response.ResultInfo.StringStatus.Equals("running"))
+            {
+                response.ResultInfo.Status = Status.Running;
+            }
+            else
+            {
+                response.ResultInfo.Status = Status.Stopped;
+            }
+
+
+            return response;
         }
+
+        public GetUsageResponse GetUsage() => AsyncHelper.RunSync(() => GetUsageAsync());
 
         #region Private method
 
@@ -321,6 +337,5 @@ namespace Randy
         }
 
         #endregion
-        
     }
 }

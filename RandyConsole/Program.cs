@@ -1,35 +1,23 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Randy;
-using Randy.Requests;
-using Randy.Enums;
+using Serilog;
+
 namespace RandyConsole
 {
-    class Program
+    static class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
+            var log = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();
+            
             GeneratorClient client = new GeneratorClient("9816823a-ba13-4a23-a601-bbbe6997a0cb");
 
-            var resp = client.GetBlobs(10, 128);
+            var resp = await client.GetUsageAsync();
             
-            Console.WriteLine(resp.Id);
-            Console.WriteLine(resp.ResultInfo.AdvisoryDelay);
-            Console.WriteLine(resp.ResultInfo.BitsLeft);
-            Console.WriteLine(resp.ResultInfo.BitsUsed);
-            Console.WriteLine(resp.ResultInfo.RequestsLeft);
-            Console.WriteLine(resp.JsonResponse);
-            Console.WriteLine(resp.CompletionTime);
+            log.Information("{@u}", resp.ResultInfo);
             
-            foreach (var i in resp.Data)
-            {
-                Console.WriteLine(i);
-            }
-            
-            foreach (var bytese in resp.DataBinary)
-            {
-                Console.WriteLine(string.Join("", bytese));
-            }
         }
     }
 }
