@@ -6,12 +6,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandyConsole", "RandyConsol
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandyIntegr", "RandyIntegr\RandyIntegr.csproj", "{DF219CEB-C901-4701-8355-E4DC77E15EC0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{18D9A752-338B-452F-AB86-4CCAA1613045}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{18D9A752-338B-452F-AB86-4CCAA1613045}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18D9A752-338B-452F-AB86-4CCAA1613045}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{763FB78F-11BF-42B3-A54A-CB17FCCE02B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{763FB78F-11BF-42B3-A54A-CB17FCCE02B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{763FB78F-11BF-42B3-A54A-CB17FCCE02B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
